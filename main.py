@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
@@ -5,8 +6,9 @@ from kivy.core.window import Window
 from kivy.uix.widget import Widget
 from kivy.graphics import Rectangle
 from kivy.uix.camera import Camera
+from kivy.uix.filechooser import FileChooserListView
 import time
-
+	
 Builder.load_string("""
 <RoundSquare@Button>:
     background_color: 0,0,0,0  
@@ -27,6 +29,7 @@ Builder.load_string("""
 <MainPage>:
     canvas.before:
         Rectangle:
+            source: 'plantimage.jpg'
             pos: self.pos
             size: self.size
     FloatLayout:
@@ -74,30 +77,7 @@ Builder.load_string("""
             	x: self.parent.x+self.parent.width-330
             	y: self.parent.y+self.parent.height-300
             	allow_stretch: True
-                
-<DetectPage>:
-    BoxLayout:
-        orientation: 'vertical'
-        Camera:
-            id: camera
-            resolution: (640, 480)
-            play: False
-        ToggleButton:
-            text: 'Play'
-            on_release: camera.play = not camera.play
-            size_hint_y: None
-            height: '48dp'
-        Button:
-            text: 'Capture'
-            size_hint_y: None
-            height: '48dp'
-            on_press: root.capture()
-        Button:
-            text: 'Main Page'
-            size_hint: 1, None
-            height: '48dp'
-            on_release: root.manager.current = 'main'
-
+            	
 <ManualPage>:
     id: imageviewer
     BoxLayout:
@@ -105,15 +85,14 @@ Builder.load_string("""
         Image: 
             id: my_image
             source: ""
- 
-        FileChooserIconView:
+        FileChooserListView:
             id: imagechooser
             on_selection: imageviewer.selected(imagechooser.selection)
         Button:
             text: 'Main Page'
-            size_hint: 1, None
+            size_hint: 1, 0.25
             on_release: root.manager.current = 'main'
-            
+           
 <HelpPage>:
     BoxLayout:
         orientation: 'vertical'
@@ -121,21 +100,16 @@ Builder.load_string("""
             text: 'Help Page'
         Button:
             text: 'Main Page'
-            size_hint: 1, None
+            size_hint: 1, 0.15
             on_release: root.manager.current = 'main'
+            
 """)
- 
+
+
 # Declare screens
  
 class MainPage(Screen):
     pass
-
-class DetectPage(Screen):
-    def capture(self):
-        camera = self.ids['camera']
-        timestr = time.strftime("%Y%m%d_%H%M%S")
-        camera.export_to_png("IMG_" + timestr)
-        print("Captured")
  
 class ManualPage(Screen):
     def selected(self, filename):
@@ -143,16 +117,15 @@ class ManualPage(Screen):
             self.ids.my_image.source = filename[0]
         except:
             pass
- 
+
 class HelpPage(Screen):
     pass
-  
+           
 class MainApp(App):
     def build(self):
         # Create the screen manager
         sm = ScreenManager()
         sm.add_widget(MainPage(name='main'))
-        sm.add_widget(MainPage(name='detect'))
         sm.add_widget(ManualPage(name='manual'))
         sm.add_widget(HelpPage(name='help'))
         return sm
