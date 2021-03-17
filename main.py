@@ -97,7 +97,32 @@ Builder.load_string("""
             size_hint: 1, None
             height: '48dp'
             on_release: root.manager.current = 'main'
+
+<ManualPage>:
+    id: imageviewer
+    BoxLayout:
+        orientation: 'vertical'
+        Image: 
+            id: my_image
+            source: ""
  
+        FileChooserIconView:
+            id: imagechooser
+            on_selection: imageviewer.selected(imagechooser.selection)
+        Button:
+            text: 'Main Page'
+            size_hint: 1, None
+            on_release: root.manager.current = 'main'
+            
+<HelpPage>:
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            text: 'Help Page'
+        Button:
+            text: 'Main Page'
+            size_hint: 1, None
+            on_release: root.manager.current = 'main'
 """)
  
 # Declare screens
@@ -112,12 +137,24 @@ class DetectPage(Screen):
         camera.export_to_png("IMG_" + timestr)
         print("Captured")
  
+class ManualPage(Screen):
+    def selected(self, filename):
+        try:
+            self.ids.my_image.source = filename[0]
+        except:
+            pass
+ 
+class HelpPage(Screen):
+    pass
+  
 class MainApp(App):
     def build(self):
         # Create the screen manager
         sm = ScreenManager()
         sm.add_widget(MainPage(name='main'))
         sm.add_widget(MainPage(name='detect'))
+        sm.add_widget(ManualPage(name='manual'))
+        sm.add_widget(HelpPage(name='help'))
         return sm
  
 MainApp().run()
