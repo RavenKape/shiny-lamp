@@ -6,7 +6,6 @@ from kivy.uix.widget import Widget
 from kivy.graphics import Rectangle
 from kivy.uix.camera import Camera
 import time
-import cv2
 
 Builder.load_string("""
 <RoundSquare@Button>:
