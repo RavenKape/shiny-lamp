@@ -74,20 +74,50 @@ Builder.load_string("""
             	x: self.parent.x+self.parent.width-330
             	y: self.parent.y+self.parent.height-300
             	allow_stretch: True
+                
+<DetectPage>:
+    BoxLayout:
+        orientation: 'vertical'
+        Camera:
+            id: camera
+            resolution: (640, 480)
+            play: False
+        ToggleButton:
+            text: 'Play'
+            on_release: camera.play = not camera.play
+            size_hint_y: None
+            height: '48dp'
+        Button:
+            text: 'Capture'
+            size_hint_y: None
+            height: '48dp'
+            on_press: root.capture()
+        Button:
+            text: 'Main Page'
+            size_hint: 1, None
+            height: '48dp'
+            on_release: root.manager.current = 'main'
+ 
 """)
  
 # Declare screens
  
- 
 class MainPage(Screen):
     pass
+
+class DetectPage(Screen):
+    def capture(self):
+        camera = self.ids['camera']
+        timestr = time.strftime("%Y%m%d_%H%M%S")
+        camera.export_to_png("IMG_" + timestr)
+        print("Captured")
  
 class MainApp(App):
     def build(self):
         # Create the screen manager
         sm = ScreenManager()
         sm.add_widget(MainPage(name='main'))
+        sm.add_widget(MainPage(name='detect'))
         return sm
- 
  
 MainApp().run()
