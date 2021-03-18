@@ -7,8 +7,37 @@ from kivy.uix.widget import Widget
 from kivy.graphics import Rectangle
 from kivy.uix.camera import Camera
 from kivy.uix.filechooser import FileChooserListView
+from kivy.utils import platform
+from kivy.logger import Logger
+from kivy.clock import mainthread
 import time
+
+def is_android():
+	return platform == 'android'
+
+def check_camera_permission():
+	if not is_android():
+		return True
+	from android.permissions import Permission, check_permission
+	permission = Permission.CAMERA
+	return check_permission(permission)
 	
+def check_request_camera_permission(callback=None):
+    had_permission = check_camera_permission()
+    Logger.info("CameraAndroid: CAMERA permission {%s}.", had_permission)
+    if not had_permission:
+        Logger.info("CameraAndroid: CAMERA permission was denied.")
+        Logger.info("CameraAndroid: Requesting CAMERA permission.")
+        from android.permissions import Permission, request_permissions
+        permissions = [Permission.CAMERA]
+        request_permissions(permissions, callback)
+        had_permission = check_camera_permission()
+        Logger.info("CameraAndroid: Returned CAMERA permission {%s}.", had_permission)
+    else:
+        Logger.info("CameraAndroid: Camera permission granted.")
+    return had_permission
+
+		
 Builder.load_string("""
 <RoundSquare@Button>:
     background_color: 0,0,0,0  
@@ -77,18 +106,16 @@ Builder.load_string("""
             	x: self.parent.x+self.parent.width-330
             	y: self.parent.y+self.parent.height-300
             	allow_stretch: True
+            	
 <DetectPage>:
     BoxLayout:
         orientation: 'vertical'
         Camera:
-            id: camera
-            resolution: (640, 480)
-            play: False
-        ToggleButton:
-            text: 'Play'
-            on_release: camera.play = not camera.play
-            size_hint_y: None
-            height: '48dp'
+            id: cam
+            resolution: (480,640)
+            play: True
+            size_hint: 1,1
+            allow_Stretch: True
         Button:
             text: 'Capture'
             size_hint_y: None
@@ -99,7 +126,7 @@ Builder.load_string("""
             size_hint: 1, None
             height: '48dp'
             on_release: root.manager.current = 'main'
-	    
+                     	
 <ManualPage>:
     id: imageviewer
     BoxLayout:
@@ -112,7 +139,7 @@ Builder.load_string("""
             on_selection: imageviewer.selected(imagechooser.selection)
         Button:
             text: 'Main Page'
-            size_hint: 1, 0.25
+            size_hint: 1, 0.20
             on_release: root.manager.current = 'main'
            
 <HelpPage>:
@@ -122,7 +149,7 @@ Builder.load_string("""
             text: 'Help Page'
         Button:
             text: 'Main Page'
-            size_hint: 1, 0.15
+            size_hint: 1, 0.10
             on_release: root.manager.current = 'main'
             
 """)
@@ -135,11 +162,8 @@ class MainPage(Screen):
 
 class DetectPage(Screen):
     def capture(self):
-        camera = self.ids['camera']
-        timestr = time.strftime("%Y%m%d_%H%M%S")
-        camera.export_to_png("IMG_" + timestr)
-        print("Captured")
-
+    	print('Captured')
+         
 class ManualPage(Screen):
     def selected(self, filename):
         try:
@@ -151,11 +175,11 @@ class HelpPage(Screen):
     pass
            
 class MainApp(App):
-    def build(self):
+    def build(self): 	
         # Create the screen manager
         sm = ScreenManager()
         sm.add_widget(MainPage(name='main'))
-	sm.add_widget(DetectPage(name='detect'))
+        sm.add_widget(DetectPage(name='detect'))
         sm.add_widget(ManualPage(name='manual'))
         sm.add_widget(HelpPage(name='help'))
         return sm
