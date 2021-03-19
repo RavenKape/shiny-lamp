@@ -7,7 +7,7 @@ from kivy.uix.widget import Widget
 from kivy.graphics import Rectangle
 from kivy.uix.camera import Camera
 from kivy.uix.filechooser import FileChooserListView
-from kivy.utils import platform
+from kivy.utils.platform import platform
 from kivy.logger import Logger
 from kivy.clock import mainthread
 import time
