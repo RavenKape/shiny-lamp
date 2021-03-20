@@ -1,4 +1,3 @@
-from __future__ import unicode_literals
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
@@ -7,21 +6,21 @@ from kivy.uix.widget import Widget
 from kivy.graphics import Rectangle
 from kivy.uix.camera import Camera
 from kivy.uix.filechooser import FileChooserListView
-from kivy.utils.platform import platform
+from kivy.utils import platform
 from kivy.logger import Logger
 from kivy.clock import mainthread
 import time
-
+ 
 def is_android():
-	return platform == 'android'
-
+    return platform == 'android'
+ 
 def check_camera_permission():
-	if not is_android():
-		return True
-	from android.permissions import Permission, check_permission
-	permission = Permission.CAMERA
-	return check_permission(permission)
-	
+    if not is_android():
+        return True
+    from android.permissions import Permission, check_permission
+    permission = Permission.CAMERA
+    return check_permission(permission)
+    
 def check_request_camera_permission(callback=None):
     had_permission = check_camera_permission()
     Logger.info("CameraAndroid: CAMERA permission {%s}.", had_permission)
@@ -36,8 +35,8 @@ def check_request_camera_permission(callback=None):
     else:
         Logger.info("CameraAndroid: Camera permission granted.")
     return had_permission
-
-		
+ 
+        
 Builder.load_string("""
 <RoundSquare@Button>:
     background_color: 0,0,0,0  
@@ -68,11 +67,11 @@ Builder.load_string("""
             size_hint: 0.35,0.35/2
             pos_hint: {'top':0.80,'right':0.45}
             Image:
-            	source: 'cameraicon.png'
-            	size: 300,290
-            	x: self.parent.x+self.parent.width-330
-            	y: self.parent.y+self.parent.height-300
-            	allow_stretch: True
+                source: 'cameraicon.png'
+                size: 300,290
+                x: self.parent.x+self.parent.width-330
+                y: self.parent.y+self.parent.height-300
+                allow_stretch: True
         RoundSquare:
             text: 'Manual Input'
             on_release: root.manager.current = 'manual'
@@ -80,10 +79,10 @@ Builder.load_string("""
             pos_hint: {'top':0.80,'right':0.90}
             Image:
                 source: 'paperwrite.png'
-            	size: 300,290
-            	x: self.parent.x+self.parent.width-325
-            	y: self.parent.y+self.parent.height-300
-            	allow_stretch: True
+                size: 300,290
+                x: self.parent.x+self.parent.width-325
+                y: self.parent.y+self.parent.height-300
+                allow_stretch: True
         RoundSquare:
             text: 'Help'
             on_release: root.manager.current = 'help'
@@ -91,10 +90,10 @@ Builder.load_string("""
             pos_hint: {'top':0.40,'right':0.45}
             Image:
                 source: 'questionmark.png'
-            	size: 300,290
-            	x: self.parent.x+self.parent.width-330
-            	y: self.parent.y+self.parent.height-300
-            	allow_stretch: True
+                size: 300,290
+                x: self.parent.x+self.parent.width-330
+                y: self.parent.y+self.parent.height-300
+                allow_stretch: True
         RoundSquare:
             text: 'Exit'
             on_release: app.stop()
@@ -102,11 +101,11 @@ Builder.load_string("""
             pos_hint: {'top':0.40,'right':0.90}
             Image:
                 source: 'exitimage.png'
-            	size: 300,290
-            	x: self.parent.x+self.parent.width-330
-            	y: self.parent.y+self.parent.height-300
-            	allow_stretch: True
-            	
+                size: 300,290
+                x: self.parent.x+self.parent.width-330
+                y: self.parent.y+self.parent.height-300
+                allow_stretch: True
+                
 <DetectPage>:
     BoxLayout:
         orientation: 'vertical'
@@ -116,7 +115,7 @@ Builder.load_string("""
             play: True
             size_hint: 1,1
             allow_Stretch: True
-        Button:
+        Button:	
             text: 'Capture'
             size_hint_y: None
             height: '48dp'
@@ -126,7 +125,7 @@ Builder.load_string("""
             size_hint: 1, None
             height: '48dp'
             on_release: root.manager.current = 'main'
-                     	
+                        
 <ManualPage>:
     id: imageviewer
     BoxLayout:
@@ -153,16 +152,16 @@ Builder.load_string("""
             on_release: root.manager.current = 'main'
             
 """)
-
-
+ 
+ 
 # Declare screens
  
 class MainPage(Screen):
     pass
-
+ 
 class DetectPage(Screen):
     def capture(self):
-    	print('Captured')
+        print('Captured')
          
 class ManualPage(Screen):
     def selected(self, filename):
@@ -170,18 +169,27 @@ class ManualPage(Screen):
             self.ids.my_image.source = filename[0]
         except:
             pass
-
+ 
 class HelpPage(Screen):
     pass
            
 class MainApp(App):
-    def build(self): 	
+    def build(self):
         # Create the screen manager
         sm = ScreenManager()
         sm.add_widget(MainPage(name='main'))
         sm.add_widget(DetectPage(name='detect'))
         sm.add_widget(ManualPage(name='manual'))
         sm.add_widget(HelpPage(name='help'))
-        return sm
+        if platform == "android":
+            permissions_to_request = request_permissions(
+                [Permission.CAMERA, Permission.WRITE_EXTERNAL_STORAGE, Permission.READ_EXTERNAL_STORAGE])
+        return sm, permissions_to_request
+ 
+ 
+ 
+ 
  
 MainApp().run()
+ 
+
