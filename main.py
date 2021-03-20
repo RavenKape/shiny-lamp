@@ -10,32 +10,9 @@ from kivy.logger import Logger
 from kivy.clock import mainthread
 import time
 import os
+from plyer
 
-def is_android():
-    return platform == 'android'
- 
-def check_camera_permission():
-    if not is_android():
-        return True
-    from android.permissions import Permission, check_permission
-    permission = Permission.CAMERA
-    return check_permission(permission)
-    
-def check_request_camera_permission(callback=None):
-    had_permission = check_camera_permission()
-    Logger.info("CameraAndroid: CAMERA permission {%s}.", had_permission)
-    if not had_permission:
-        Logger.info("CameraAndroid: CAMERA permission was denied.")
-        Logger.info("CameraAndroid: Requesting CAMERA permission.")
-        from android.permissions import Permission, request_permissions
-        permissions = [Permission.CAMERA]
-        request_permissions(permissions, callback)
-        had_permission = check_camera_permission()
-        Logger.info("CameraAndroid: Returned CAMERA permission {%s}.", had_permission)
-    else:
-        Logger.info("CameraAndroid: Camera permission granted.")
-    return had_permission
-    
+
 Builder.load_string("""
 <RoundSquare@Button>:
     background_color: 0,0,0,0  
