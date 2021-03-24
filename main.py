@@ -83,20 +83,13 @@ Builder.load_string("""
 <DetectPage>:
     BoxLayout:
         orientation: 'vertical'
-        Camera:
-            id: camera
-            resolution: (640, 480)
-            play: False
-        ToggleButton:
-            text: 'Play'
-            on_press: camera.play = not camera.play
-            size_hint: 1, None
-            height: '48dp'
+        Image:
+            id: image
         Button:
-            text: 'Capture'
-            size_hint: 1, None
+            text: 'Access Camera'
+            size_hint_y: None
             height: '48dp'
-            on_press: root.capture()
+            on_press: root.access_camera()
         Button:
             text: 'Main Page'
             size_hint: 1, None
@@ -112,7 +105,7 @@ Builder.load_string("""
             source: " "
         FileChooserListView:
             id: imagechooser
-            rootpath: "/storage/emulated/0/"
+            rootpath: "/storage/emulated/0"
             on_selection: imageviewer.selected(imagechooser.selection)
         Button:
             text: 'Upload'
