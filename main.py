@@ -136,12 +136,14 @@ class MainPage(Screen):
 
 class DetectPage(Screen):
     def access_camera(self):
-    	name_photo = time.strftime("%d%Y_%H%M%S") + ".jpg"
-    	print(name_photo)
-    	camera.take_picture(filename=name_photo, on_complete=self.camera_callback)
-    def camera_callback(self, filename):
-    	print("filename: ", filename)
-    	self.ids.image.source = filename
+    	Intent = autoclass('android.content.Intent')
+        PythonActivity = autoclass('org.kivy.android.PythonActivity')
+        currentActivity = cast('android.app.Activity', PythonActivity.mActivity)
+
+        intent = Intent()
+        Settings = autoclass('android.provider.Settings')
+        intent.setAction(Settings.ACTION_BLUETOOTH_SETTINGS)
+        currentActivity.startActivity(intent)
          
 class ManualPage(Screen):
     def selected(self, filename):
