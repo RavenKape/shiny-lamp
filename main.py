@@ -9,11 +9,13 @@ from kivy.utils import platform
 from kivy.logger import Logger
 from kivy.clock import mainthread
 from jnius import autoclass, cast
-from android.permissions import request_permissions, Permission
+from kivy import platform
 import time
 import os
 
-request_permissions([Permission.WRITE_EXTERNAL_STORAGE, Permission.READ_EXTERNAL_STORAGE])
+if platform == "android":
+    from android.permissions import request_permissions, Permission
+    request_permissions([Permission.WRITE_EXTERNAL_STORAGE, Permission.READ_EXTERNAL_STORAGE, Permission.CAMERA])
 
 Builder.load_string("""
 <RoundSquare@Button>:
