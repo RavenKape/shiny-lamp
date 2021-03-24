@@ -9,8 +9,11 @@ from kivy.utils import platform
 from kivy.logger import Logger
 from kivy.clock import mainthread
 from jnius import autoclass, cast
+from android.permissions import request_permissions, Permission
 import time
 import os
+
+request_permissions([Permission.WRITE_EXTERNAL_STORAGE, Permission.READ_EXTERNAL_STORAGE])
 
 Builder.load_string("""
 <RoundSquare@Button>:
@@ -135,14 +138,12 @@ class MainPage(Screen):
 
 class DetectPage(Screen):
     def access_camera(self):
-    	Intent = autoclass('android.content.Intent')
-        PythonActivity = autoclass('org.kivy.android.PythonActivity')
-        currentActivity = cast('android.app.Activity', PythonActivity.mActivity)
-
-        intent = Intent()
-        Settings = autoclass('android.provider.Settings')
-        intent.setAction(Settings.ACTION_BLUETOOTH_SETTINGS)
-        currentActivity.startActivity(intent)
+    	name_photo = time.strftime("%d%Y_%H%M%S") + ".jpg"
+    	print(name_photo)
+    	camera.take_picture(filename=name_photo, on_complete=self.camera_callback)
+    def camera_callback(self, filename):
+    	print("filename: ", filename)
+    	self.ids.image.source = filename
          
 class ManualPage(Screen):
     def selected(self, filename):
