@@ -8,10 +8,9 @@ from kivy.uix.filechooser import FileChooserListView
 from kivy.utils import platform
 from kivy.logger import Logger
 from kivy.clock import mainthread
+from jnius import autoclass, cast
 import time
 import os
-from plyer
-
 
 Builder.load_string("""
 <RoundSquare@Button>:
