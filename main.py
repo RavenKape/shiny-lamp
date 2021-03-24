@@ -134,11 +134,13 @@ class MainPage(Screen):
     pass
 
 class DetectPage(Screen):
-    def capture(self):
-    	camera = self.ids['camera']
-        timestr = time.strftime("%Y%m%d_%H%M%S")
-        camera.export_to_png("IMG_" + timestr)
-        print("Captured")
+    def access_camera(self):
+    	name_photo = time.strftime("%d%Y_%H%M%S") + ".jpg"
+    	print(name_photo)
+    	camera.take_picture(filename=name_photo, on_complete=self.camera_callback)
+    def camera_callback(self, filename):
+    	print("filename: ", filename)
+    	self.ids.image.source = filename
          
 class ManualPage(Screen):      
     def selected(self, filename):
