@@ -6,15 +6,11 @@ from kivy.uix.widget import Widget
 from kivy.graphics import Rectangle
 from kivy.uix.filechooser import FileChooserListView
 from kivy.utils import platform
-from kivy.logger import Logger
-from kivy.clock import mainthread
 from jnius import autoclass, cast
-from android.permissions import request_permissions, Permission
 import time
 import os
 
-request_permissions([Permission.WRITE_EXTERNAL_STORAGE, Permission.READ_EXTERNAL_STORAGE])
-
+    
 Builder.load_string("""
 <RoundSquare@Button>:
     background_color: 0,0,0,0  
@@ -106,7 +102,7 @@ Builder.load_string("""
         orientation: 'vertical'
         Image: 
             id: my_image
-            source: "white.jpg"
+            source: ""
         FileChooserListView:
             id: imagechooser
             on_selection: imageviewer.selected(imagechooser.selection)
@@ -157,6 +153,10 @@ class HelpPage(Screen):
 
            
 class MainApp(App):
+    def on_start(self):
+        if platform == "android":
+            from android.permissions import request_permissions, Permission
+            request_permissions([Permission.WRITE_EXTERNAL_STORAGE, Permission.READ_EXTERNAL_STORAGE, Permission.CAMERA])
     def build(self):
         # Create the screen manager
         sm = ScreenManager()
