@@ -102,9 +102,10 @@ Builder.load_string("""
         orientation: 'vertical'
         Image: 
             id: my_image
-            source: ""
+            source: " "
         FileChooserListView:
             id: imagechooser
+            rootpath: "/storage/emulated/0/"
             on_selection: imageviewer.selected(imagechooser.selection)
         Button:
             text: 'Upload'
@@ -141,7 +142,7 @@ class DetectPage(Screen):
     	print("filename: ", filename)
     	self.ids.image.source = filename
          
-class ManualPage(Screen):
+class ManualPage(Screen):      
     def selected(self, filename):
         try:
             self.ids.my_image.source = filename[0]
