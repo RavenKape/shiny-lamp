@@ -83,13 +83,20 @@ Builder.load_string("""
 <DetectPage>:
     BoxLayout:
         orientation: 'vertical'
-        Image:
-            id: image
-        Button:
-            text: 'Access Camera'
+        Camera:
+            id: camera
+            resolution: (640, 480)
+            play: False
+        ToggleButton:
+            text: 'Play'
+            on_release: camera.play = not camera.play
             size_hint_y: None
             height: '48dp'
-            on_press: root.access_camera()
+        Button:
+            text: 'Capture'
+            size_hint_y: None
+            height: '48dp'
+            on_press: root.capture()
         Button:
             text: 'Main Page'
             size_hint: 1, None
@@ -134,13 +141,12 @@ class MainPage(Screen):
     pass
 
 class DetectPage(Screen):
-    def access_camera(self):
-    	name_photo = time.strftime("%d%Y_%H%M%S") + ".jpg"
-    	print(name_photo)
-    	camera.take_picture(filename=name_photo, on_complete=self.camera_callback)
-    def camera_callback(self, filename):
-    	print("filename: ", filename)
-    	self.ids.image.source = filename
+   def capture(self):
+        # Function to capture the images and give them the names
+        # according to their captured time and date.
+        camera = self.ids['camera']
+        timestr = time.strftime("%Y%m%d_%H%M%S")
+        camera.export_to_png("IMG_" + timestr)
          
 class ManualPage(Screen):      
     def selected(self, filename):
