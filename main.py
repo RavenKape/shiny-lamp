@@ -85,12 +85,8 @@ Builder.load_string("""
         Camera:
             id: camera
             resolution: (640, 480)
-            play: False
-        ToggleButton:
-            text: 'Play'
-            on_release: camera.play = not camera.play
-            size_hint_y: None
-            height: '48dp'
+            play: True
+            allow_stretch: True
         Button:
             text: 'Capture'
             size_hint_y: None
@@ -109,6 +105,7 @@ Builder.load_string("""
         Image: 
             id: my_image
             source: " "
+            allow_stretch: True
         FileChooserListView:
             id: imagechooser
             rootpath: "/storage/emulated/0"
@@ -155,8 +152,7 @@ class DetectPage(Screen):
         if not self.is_android():
             return
         from android.permissions import request_permission, Permission
-        request_permission(Permission.CAMERA)
-        
+        request_permission(Permission.CAMERA)   
     def capture(self):
         # Function to capture the images and give them the names
         # according to their captured time and date.
