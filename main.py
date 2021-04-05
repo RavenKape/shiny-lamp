@@ -137,22 +137,6 @@ class MainPage(Screen):
     pass
 
 class DetectPage(Screen):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self._request_android_permissions()
-   
-    @staticmethod
-    def is_android():
-        return platform == 'android'
-   	 
-    def _request_android_permissions(self):
-        """
-        Requests CAMERA permission on Android.
-        """
-        if not self.is_android():
-            return
-        from android.permissions import request_permission, Permission
-        request_permission(Permission.CAMERA)   
     def capture(self):
         # Function to capture the images and give them the names
         # according to their captured time and date.
