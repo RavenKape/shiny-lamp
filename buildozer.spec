@@ -46,7 +46,7 @@ requirements = python3,kivy,android,requests,jnius,pyjnius,plyer
 presplash.filename = "plantimage.jpg"
 
 # (str) Icon of the application
-icon.filename = "icon.jpeg"
+icon.filename = "icon.jpg"
 
 # (str) Supported orientation (one of landscape, sensorLandscape, portrait or all)
 orientation = portrait
