@@ -176,11 +176,10 @@ class HelpPage(Screen):
 
            
 class MainApp(App):
-    def on_start(self):
+    def build(self):
         if platform == "android":
             from android.permissions import request_permissions, Permission
             request_permissions([Permission.WRITE_EXTERNAL_STORAGE, Permission.READ_EXTERNAL_STORAGE, Permission.CAMERA])
-    def build(self):
         # Create the screen manager
         sm = ScreenManager()
         sm.add_widget(MainPage(name='main'))
