@@ -6,6 +6,8 @@ from kivy.uix.widget import Widget
 from kivy.graphics import Rectangle
 from kivy.uix.filechooser import FileChooserListView
 from kivy.utils import platform
+from PIL import ImageOps
+from kivy.clock import Clock
 import time
 import os
 
@@ -80,6 +82,11 @@ Builder.load_string("""
             	allow_stretch: True
             	
 <DetectPage>:
+    canvas.before:
+        Rectangle:
+            source: 'plantimage.jpg'
+            pos: self.pos
+            size: self.size
     BoxLayout:
         orientation: 'vertical'
         Camera:
@@ -87,6 +94,13 @@ Builder.load_string("""
             resolution: (640, 480)
             play: True
             allow_stretch: True
+            canvas.before:
+                PushMatrix:
+                Rotate:
+                    angle: 270
+                    origin: self.center
+            canvas.after:
+                PopMatrix:
         Button:
             text: 'Capture'
             size_hint_y: None
@@ -97,7 +111,7 @@ Builder.load_string("""
             size_hint: 1, None
             height: '48dp'
             on_release: root.manager.current = 'main'
-                     	
+                      	
 <ManualPage>:
     id: imageviewer
     BoxLayout:
