@@ -133,6 +133,11 @@ Builder.load_string("""
             on_release: root.manager.current = 'main'
            
 <HelpPage>:
+    canvas.before:
+        Rectangle:
+            source: 'helpbg.png'
+            pos: self.pos
+            size: self.size
     BoxLayout:
         orientation: 'vertical'
         Label:
