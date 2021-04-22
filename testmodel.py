@@ -22,6 +22,7 @@ width = 256
 height = 256
 depth = 3
 
+#need by number filename ng jpg
 imagefilepath = "D:/Res/data testset/Eggplant Healthy/1.jpg"
 model = keras.models.load_model("diseasedetectmodel1.h5")
 default_image_size = tuple((256, 256))
@@ -39,6 +40,7 @@ def convert_image_to_array(image_dir):
         print(f"Error : {e}")
         return None
 
+#range(1, [number of pics + 1])
 for x in range(1, 26):
     im = convert_image_to_array("D:/Res/data testset/Eggplant Healthy/"+ str(x) +".jpg")
     np_image_li = np.array(im, dtype=np.float16) / 225.0
