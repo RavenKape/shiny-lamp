@@ -13,7 +13,12 @@ import os
 
 if platform == "android":
     from android.permissions import request_permissions, Permission
-    request_permissions([Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE, Permission.CAMERA])
+    if check_permission('android.permission.WRITE_EXTERNAL_STORAGE'):
+        request_permissions([Permission.WRITE_EXTERNAL_STORAGE])
+    if check_permission('android.permission.READ_EXTERNAL_STORAGE'):
+        request_permissions([Permission.READ_EXTERNAL_STORAGE])
+    if check_permission('android.permission.CAMERA'):
+        request_permissions([Permission.CAMERA])
     
 Builder.load_string("""
 <RoundSquare@Button>:
