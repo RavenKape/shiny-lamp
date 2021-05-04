@@ -6,11 +6,14 @@ from kivy.uix.widget import Widget
 from kivy.graphics import Rectangle
 from kivy.uix.filechooser import FileChooserListView
 from kivy.utils import platform
-from PIL import ImageOps
+from android.permissions import request_permissions, Permission
 from kivy.clock import Clock
 import time
 import os
 
+if platform == "android":
+    from android.permissions import request_permissions, Permission
+    request_permissions([Permission.READ_EXTERNAL_STORAGE, Permission.WRITE_EXTERNAL_STORAGE, Permission.CAMERA])
     
 Builder.load_string("""
 <RoundSquare@Button>:
@@ -133,11 +136,6 @@ Builder.load_string("""
             on_release: root.manager.current = 'main'
            
 <HelpPage>:
-    canvas.before:
-        Rectangle:
-            source: 'helpbg.png'
-            pos: self.pos
-            size: self.size
     BoxLayout:
         orientation: 'vertical'
         Label:
@@ -156,6 +154,9 @@ class MainPage(Screen):
     pass
 
 class DetectPage(Screen):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        
     def capture(self):
         # Function to capture the images and give them the names
         # according to their captured time and date.
@@ -175,10 +176,6 @@ class HelpPage(Screen):
 
            
 class MainApp(App):
-    def on_start(self):
-        if platform == "android":
-            from android.permissions import request_permissions, Permission
-            request_permissions([Permission.WRITE_EXTERNAL_STORAGE, Permission.READ_EXTERNAL_STORAGE, Permission.CAMERA])
     def build(self):
         # Create the screen manager
         sm = ScreenManager()
