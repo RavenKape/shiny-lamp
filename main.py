@@ -12,7 +12,7 @@ import time
 import os
 
 if platform == "android":
-    from android.permissions import request_permissions, Permission
+    from android.permissions import request_permissions, check_permission, Permission
     if not check_permission('android.permission.WRITE_EXTERNAL_STORAGE'):
         request_permissions([Permission.WRITE_EXTERNAL_STORAGE])
     if not check_permission('android.permission.READ_EXTERNAL_STORAGE'):
