@@ -13,11 +13,11 @@ import os
 
 if platform == "android":
     from android.permissions import request_permissions, Permission
-    if check_permission('android.permission.WRITE_EXTERNAL_STORAGE'):
+    if not check_permission('android.permission.WRITE_EXTERNAL_STORAGE'):
         request_permissions([Permission.WRITE_EXTERNAL_STORAGE])
-    if check_permission('android.permission.READ_EXTERNAL_STORAGE'):
+    if not check_permission('android.permission.READ_EXTERNAL_STORAGE'):
         request_permissions([Permission.READ_EXTERNAL_STORAGE])
-    if check_permission('android.permission.CAMERA'):
+    if not check_permission('android.permission.CAMERA'):
         request_permissions([Permission.CAMERA])
     
 Builder.load_string("""
