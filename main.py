@@ -105,6 +105,8 @@ Builder.load_string("""
                 Rotate:
                     angle: 270
                     origin: self.center
+            canvas.after:
+                PopMatrix:
         Button:
             text: 'Capture'
             size_hint_y: None
@@ -185,5 +187,6 @@ class MainApp(App):
         sm.add_widget(ManualPage(name='manual'))
         sm.add_widget(HelpPage(name='help'))
         return sm
+        return DetectPage()
 
 MainApp().run()
