@@ -13,6 +13,7 @@ import time
 import os
 
 if platform == "android":
+    activity = autoclass('org.renpy.android.PythonActivity')
     from android.permissions import request_permissions, check_permission, Permission
     if not check_permission('android.permission.WRITE_EXTERNAL_STORAGE'):
         if not check_permission('android.permission.READ_EXTERNAL_STORAGE'):
