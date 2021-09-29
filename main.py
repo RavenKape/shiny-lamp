@@ -6,6 +6,7 @@ from kivy.uix.widget import Widget
 from kivy.graphics import Rectangle
 from kivy.uix.filechooser import FileChooserListView
 from kivy.utils import platform
+from kivy_garden.xcamera import XCamera
 from android.permissions import request_permissions, Permission
 from kivy.clock import Clock
 import time
@@ -96,22 +97,8 @@ Builder.load_string("""
     BoxLayout:
         orientation: 'vertical'
         Camera:
-            id: camera
-            resolution: (640, 480)
-            play: True
-            allow_stretch: True
-            canvas.before:
-                PushMatrix:
-                Rotate:
-                    angle: 270
-                    origin: self.center
-            canvas.after:
-                PopMatrix:
-        Button:
-            text: 'Capture'
-            size_hint_y: None
-            height: '48dp'
-            on_press: root.capture()
+            id: xcamera
+            on_picture_taken: app_picture_taken()
         Button:
             text: 'Main Page'
             size_hint: 1, None
