@@ -93,30 +93,29 @@ Builder.load_string("""
             source: 'plantimage.jpg'
             pos: self.pos
             size: self.size
-    BoxLayout:
-        orientation: 'vertical'
-        Camera:
-            id: camera
-            resolution: (640, 480)
-            play: True
-            allow_stretch: True
-            canvas.before:
-                PushMatrix:
-                Rotate:
-                    angle: 270
-                    origin: self.center
-            canvas.after:
-                PopMatrix:
-        Button:
-            text: 'Capture'
-            size_hint_y: None
-            height: '48dp'
-            on_press: root.capture()
-        Button:
-            text: 'Main Page'
-            size_hint: 1, None
-            height: '48dp'
-            on_release: root.manager.current = 'main'
+    orientation: 'vertical'
+    Camera:
+        id: camera
+        resolution: (640, 480)
+        play: True
+        allow_stretch: True
+        canvas.before:
+            PushMatrix:
+            Rotate:
+                angle: 270
+                origin: self.center
+        canvas.after:
+            PopMatrix:
+    Button:
+        text: 'Capture'
+        size_hint_y: None
+        height: '48dp'
+        on_press: root.capture()
+    Button:
+        text: 'Main Page'
+        size_hint: 1, None
+        height: '48dp'
+        on_release: root.manager.current = 'main'
                       	
 <ManualPage>:
     id: imageviewer
