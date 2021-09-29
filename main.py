@@ -4,6 +4,7 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.core.window import Window
 from kivy.uix.widget import Widget
 from kivy.graphics import Rectangle
+from kivy.uix.camera import Camera
 from kivy.uix.filechooser import FileChooserListView
 from kivy.utils import platform
 from android.permissions import request_permissions, Permission
@@ -93,29 +94,30 @@ Builder.load_string("""
             source: 'plantimage.jpg'
             pos: self.pos
             size: self.size
-    orientation: 'vertical'
-    Camera:
-        id: camera
-        resolution: (640, 480)
-        play: True
-        allow_stretch: True
-        canvas.before:
-            PushMatrix:
-            Rotate:
-                angle: 270
-                origin: self.center
-        canvas.after:
-            PopMatrix:
-    Button:
-        text: 'Capture'
-        size_hint_y: None
-        height: '48dp'
-        on_press: root.capture()
-    Button:
-        text: 'Main Page'
-        size_hint: 1, None
-        height: '48dp'
-        on_release: root.manager.current = 'main'
+    BoxLayout:
+        orientation: 'vertical'
+        Camera:
+            id: camera
+            resolution: (640, 480)
+            play: True
+            allow_stretch: True
+            canvas.before:
+                PushMatrix:
+                Rotate:
+                    angle: 270
+                    origin: self.center
+            canvas.after:
+                PopMatrix:
+        Button:
+            text: 'Capture'
+            size_hint_y: None
+            height: '48dp'
+            on_press: root.capture()
+        Button:
+            text: 'Main Page'
+            size_hint: 1, None
+            height: '48dp'
+            on_release: root.manager.current = 'main'
                       	
 <ManualPage>:
     id: imageviewer
@@ -164,7 +166,8 @@ class DetectPage(Screen):
         # according to their captured time and date.
         camera = self.ids['camera']
         timestr = time.strftime("%Y%m%d_%H%M%S")
-        camera.export_to_png("IMG_" + timestr)
+        camera.export_to_png("IMG_{}.png".format(timestr))
+        print("Captured")
          
 class ManualPage(Screen):
     def selected(self, filename):
