@@ -1,6 +1,7 @@
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
+from kivy.uix.boxlayout import BoxLayout
 from kivy.core.window import Window
 from kivy.uix.widget import Widget
 from kivy.graphics import Rectangle
@@ -12,12 +13,12 @@ import time
 import os
 
 if platform == "android":
-    from android.permissions import request_permissions, check_permission, Permission
+    activity = autoclass('org.kivy.android.PythonActivity')
     if not check_permission('android.permission.WRITE_EXTERNAL_STORAGE'):
         if not check_permission('android.permission.READ_EXTERNAL_STORAGE'):
             if not check_permission('android.permission.CAMERA'):
-                  
-Builder.load_string("""
+                
+Builder.load_string('''
 <RoundSquare@Button>:
     background_color: 0,0,0,0  
     color: 1,1,0,1
@@ -85,7 +86,7 @@ Builder.load_string("""
             	x: self.parent.x+self.parent.width-330
             	y: self.parent.y+self.parent.height-300
             	allow_stretch: True
-            	
+
 <DetectPage>:
     canvas.before:
         Rectangle:
@@ -113,7 +114,7 @@ Builder.load_string("""
             size_hint: 1, None
             height: '48dp'
             on_release: root.manager.current = 'main'
-                      	
+
 <ManualPage>:
     id: imageviewer
     BoxLayout:
@@ -133,7 +134,7 @@ Builder.load_string("""
             text: 'Main Page'
             size_hint: 1, 0.20
             on_release: root.manager.current = 'main'
-           
+
 <HelpPage>:
     BoxLayout:
         orientation: 'vertical'
@@ -142,39 +143,36 @@ Builder.load_string("""
         Button:
             text: 'Main Page'
             size_hint: 1, 0.10
-            on_release: root.manager.current = 'main'
-            
-""")
+            on_release: root.manager.current = 'main'            
+''')
 
-
-# Declare screens
- 
 class MainPage(Screen):
     pass
 
-class DetectPage(Screen):       
+class DetectPage(Screen):
     def capture(self):
-        # Function to capture the images and give them the names
-        # according to their captured time and date.
-        camera = Camera()
+        '''
+        Function to capture the images and give them the names
+        according to their captured time and date.
+        '''
+        camera = self.ids['camera']
         timestr = time.strftime("%Y%m%d_%H%M%S")
         camera.export_to_png("IMG_{}.png".format(timestr))
         print("Captured")
-         
+
 class ManualPage(Screen):
     def selected(self, filename):
         try:
             self.ids.my_image.source = filename[0]
         except:
             pass
-
+        
 class HelpPage(Screen):
     pass
 
-           
 class MainApp(App):
-    def build(self):
 
+    def build(self):
         sm = ScreenManager()
         sm.add_widget(MainPage(name='main'))
         sm.add_widget(DetectPage(name='detect'))
