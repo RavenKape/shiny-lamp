@@ -7,18 +7,19 @@ from kivy.uix.widget import Widget
 from kivy.graphics import Rectangle
 from kivy.uix.camera import Camera
 from kivy.uix.filechooser import FileChooserListView
-from android.permissions import request_permissions, check_permission, Permission
+from android.permissions import request_permissions, Permission
 from kivy.utils import platform
 from kivy.clock import Clock
 import time
 import os
 
 if platform == "android":
-    activity = autoclass('org.kivy.android.PythonActivity')
+    from android.permissions import request_permissions, check_permission, Permission
     if not check_permission('android.permission.WRITE_EXTERNAL_STORAGE'):
         if not check_permission('android.permission.READ_EXTERNAL_STORAGE'):
             if not check_permission('android.permission.CAMERA'):
-                
+                request_permissions([Permission.WRITE_EXTERNAL_STORAGE,Permission.READ_EXTERNAL_STORAGE,Permission.CAMERA])
+
 Builder.load_string('''
 <RoundSquare@Button>:
     background_color: 0,0,0,0  
@@ -87,7 +88,6 @@ Builder.load_string('''
             	x: self.parent.x+self.parent.width-330
             	y: self.parent.y+self.parent.height-300
             	allow_stretch: True
-
 <DetectPage>:
     canvas.before:
         Rectangle:
@@ -103,6 +103,9 @@ Builder.load_string('''
             allow_stretch: True
             canvas.before:
                 PushMatrix:
+                Rotate:
+                    angle: 270
+                    origin: self.center
             canvas.after:
                 PopMatrix:
         Button:
@@ -115,7 +118,6 @@ Builder.load_string('''
             size_hint: 1, None
             height: '48dp'
             on_release: root.manager.current = 'main'
-
 <ManualPage>:
     id: imageviewer
     BoxLayout:
@@ -135,7 +137,6 @@ Builder.load_string('''
             text: 'Main Page'
             size_hint: 1, 0.20
             on_release: root.manager.current = 'main'
-
 <HelpPage>:
     BoxLayout:
         orientation: 'vertical'
@@ -146,10 +147,8 @@ Builder.load_string('''
             size_hint: 1, 0.10
             on_release: root.manager.current = 'main'            
 ''')
-
 class MainPage(Screen):
     pass
-
 class DetectPage(Screen):
     def capture(self):
         '''
@@ -158,9 +157,9 @@ class DetectPage(Screen):
         '''
         camera = self.ids['camera']
         timestr = time.strftime("%Y%m%d_%H%M%S")
-        camera.export_to_png("IMG_{}.png".format(timestr))
+        camera.export_to_png("/storage/emulated/0/DCIM/Camera/IMG_{}.png".format(timestr))
         print("Captured")
-
+        
 class ManualPage(Screen):
     def selected(self, filename):
         try:
@@ -170,9 +169,8 @@ class ManualPage(Screen):
         
 class HelpPage(Screen):
     pass
-
-class MainApp(App):
-
+    
+class TestCamera(App):
     def build(self):
         sm = ScreenManager()
         sm.add_widget(MainPage(name='main'))
@@ -180,5 +178,4 @@ class MainApp(App):
         sm.add_widget(ManualPage(name='manual'))
         sm.add_widget(HelpPage(name='help'))
         return sm
-
-MainApp().run()
+TestCamera().run()
