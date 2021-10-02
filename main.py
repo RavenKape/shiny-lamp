@@ -7,6 +7,7 @@ from kivy.uix.widget import Widget
 from kivy.graphics import Rectangle
 from kivy.uix.camera import Camera
 from kivy.uix.filechooser import FileChooserListView
+from android.permissions import request_permissions, check_permission, Permission
 from kivy.utils import platform
 from kivy.clock import Clock
 import time
