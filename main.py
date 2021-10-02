@@ -103,9 +103,6 @@ Builder.load_string("""
             allow_stretch: True
             canvas.before:
                 PushMatrix:
-                Rotate:
-                    angle: 270
-                    origin: self.center
             canvas.after:
                 PopMatrix:
         Button:
