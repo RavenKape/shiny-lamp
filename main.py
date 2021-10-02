@@ -1,15 +1,16 @@
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
-from kivy.uix.boxlayout import BoxLayout
 from kivy.core.window import Window
 from kivy.uix.widget import Widget
 from kivy.graphics import Rectangle
-from kivy.uix.camera import Camera
 from kivy.uix.filechooser import FileChooserListView
-from android.permissions import request_permissions, Permission
 from kivy.utils import platform
 from kivy.clock import Clock
+from android.permissions import request_permissions, check_permission, Permission
+from jnius import autoclass
+from jnius import JavaException
+import numpy as np
 import time
 import os
 
