@@ -152,10 +152,7 @@ Builder.load_string("""
 class MainPage(Screen):
     pass
 
-class DetectPage(Screen):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        
+class DetectPage(Screen):       
     def capture(self):
         # Function to capture the images and give them the names
         # according to their captured time and date.
@@ -177,7 +174,7 @@ class HelpPage(Screen):
            
 class MainApp(App):
     def build(self):
-        # Create the screen manager
+
         sm = ScreenManager()
         sm.add_widget(MainPage(name='main'))
         sm.add_widget(DetectPage(name='detect'))
