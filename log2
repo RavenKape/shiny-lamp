@@ -1,0 +1,95 @@
+running patch -t -d /home/pls/a/.buil...(and 231 more)
+           working: 1 out of 1 hunk ignored                                   Exception in thread background thread for pid 15066:
+Traceback (most recent call last):
+  File "/usr/lib/python3.8/threading.py", line 932, in _bootstrap_inner
+    self.run()
+  File "/usr/lib/python3.8/threading.py", line 870, in run
+    self._target(*self._args, **self._kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/sh-1.14.1-py3.8.egg/sh.py", line 1637, in wrap
+    fn(*rgs, **kwargs)
+  File "/usr/local/lib/python3.8/dist-packages/sh-1.14.1-py3.8.egg/sh.py", line 2561, in background_thread
+    handle_exit_code(exit_code)
+  File "/usr/local/lib/python3.8/dist-packages/sh-1.14.1-py3.8.egg/sh.py", line 2265, in fn
+    return self.command.handle_command_exit_code(exit_code)
+  File "/usr/local/lib/python3.8/dist-packages/sh-1.14.1-py3.8.egg/sh.py", line 865, in handle_command_exit_code
+    raise exc
+sh.ErrorReturnCode_1: 
+
+  RAN: /usr/bin/patch -t -d /home/pls/a/.buildozer/android/platform/build-armeabi-v7a/build/other_builds/pyjnius-sdl2/armeabi-v7a__ndk_target_21/pyjnius -p1 -i /home/pls/a/.buildozer/android/platform/python-for-android/pythonforandroid/recipes/pyjnius/sdl2_jnienv_getter.patch
+
+  STDOUT:
+patching file jnius/jnius_jvm_android.pxi
+can't find file to patch at input line 17
+Perhaps you used the wrong -p or --strip option?
+The text leading up to this was:
+--------------------------
+|diff --git a/env.py b/env.py
+|index 740510f..0c8e55f 100644
+|--- a/jnius/env.py
+|+++ b/jnius/env.py
+--------------------------
+No file to patch.  Skipping patch.
+1 out of 1 hunk ignored
+
+
+  STDERR:
+
+[INFO]:    STDOUT (last 10 lines of 12):                                      
+	Perhaps you used the wrong -p or --strip option?	
+The text leading up to this was:	
+--------------------------	
+|diff --git a/env.py b/env.py	
+|index 740510f..0c8e55f 100644	
+|--- a/jnius/env.py	
+|+++ b/jnius/env.py	
+--------------------------	
+No file to patch.  Skipping patch.	
+1 out of 1 hunk ignored
+[INFO]:    STDERR:
+	
+Traceback (most recent call last):
+  File "/usr/lib/python3.8/runpy.py", line 194, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib/python3.8/runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "/home/pls/a/.buildozer/android/platform/python-for-android/pythonforandroid/toolchain.py", line 1276, in <module>
+    main()
+  File "/home/pls/a/.buildozer/android/platform/python-for-android/pythonforandroid/entrypoints.py", line 18, in main
+    ToolchainCL()
+  File "/home/pls/a/.buildozer/android/platform/python-for-android/pythonforandroid/toolchain.py", line 725, in __init__
+    getattr(self, command)(args)
+  File "/home/pls/a/.buildozer/android/platform/python-for-android/pythonforandroid/toolchain.py", line 153, in wrapper_func
+    build_dist_from_args(ctx, dist, args)
+  File "/home/pls/a/.buildozer/android/platform/python-for-android/pythonforandroid/toolchain.py", line 212, in build_dist_from_args
+    build_recipes(build_order, python_modules, ctx,
+  File "/home/pls/a/.buildozer/android/platform/python-for-android/pythonforandroid/build.py", line 573, in build_recipes
+    recipe.apply_patches(arch)
+  File "/home/pls/a/.buildozer/android/platform/python-for-android/pythonforandroid/recipe.py", line 560, in apply_patches
+    self.apply_patch(
+  File "/home/pls/a/.buildozer/android/platform/python-for-android/pythonforandroid/recipe.py", line 263, in apply_patch
+    shprint(sh.patch, "-t", "-d", build_dir, "-p1",
+  File "/home/pls/a/.buildozer/android/platform/python-for-android/pythonforandroid/logger.py", line 167, in shprint
+    for line in output:
+  File "/usr/local/lib/python3.8/dist-packages/sh-1.14.1-py3.8.egg/sh.py", line 911, in next
+    self.wait()
+  File "/usr/local/lib/python3.8/dist-packages/sh-1.14.1-py3.8.egg/sh.py", line 841, in wait
+    self.handle_command_exit_code(exit_code)
+  File "/usr/local/lib/python3.8/dist-packages/sh-1.14.1-py3.8.egg/sh.py", line 865, in handle_command_exit_code
+    raise exc
+sh.ErrorReturnCode_1: 
+
+  RAN: /usr/bin/patch -t -d /home/pls/a/.buildozer/android/platform/build-armeabi-v7a/build/other_builds/pyjnius-sdl2/armeabi-v7a__ndk_target_21/pyjnius -p1 -i /home/pls/a/.buildozer/android/platform/python-for-android/pythonforandroid/recipes/pyjnius/sdl2_jnienv_getter.patch
+
+  STDOUT:
+patching file jnius/jnius_jvm_android.pxi
+can't find file to patch at input line 17
+Perhaps you used the wrong -p or --strip option?
+The text leading up to this was:
+--------------------------
+|diff --git a/env.py b/env.py
+|index 740510f..0c8e55f 100644
+|--- a/jnius/env.py
+|+++ b/jnius/env.py
+--------------------------
+No file to patch.  Skipping patch.
+1 out of 1 hunk ignored
