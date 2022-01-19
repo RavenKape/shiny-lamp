@@ -17,6 +17,7 @@ from keras.wrappers.scikit_learn import KerasClassifier
 from keras.models import load_model
 from sklearn.preprocessing import MultiLabelBinarizer
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import f1_score, precision_score, recall_score, confusion_matrix
 import matplotlib.pyplot as plt
 
 
@@ -146,7 +147,7 @@ model.add(Activation("softmax"))
 model.summary()
 
 opt = Adam(lr=INIT_LR, decay=INIT_LR / EPOCHS)
-# distribution
+# distribution, btw ito yung sa accuracy score
 model.compile(loss="binary_crossentropy", optimizer=opt, metrics=["accuracy"])
 # train the network
 print("[INFO] training network...")
@@ -213,3 +214,14 @@ print(result)
 itemindex = np.where(result == np.max(result))
 print("probability:"+str(np.max(result))+"\n" +
       label_binarizer.classes_[itemindex[1][0]])
+
+y_pred1 = model.predict(X_test)
+y_pred = np.argmax(y_pred1, axis=1)
+
+# Ito yung output para dun sa mga memeasure natin sa chap 4
+print("Precision Score:")
+print(precision_score(y_test, y_pred , average="macro"))
+print("Recall Score:")
+print(recall_score(y_test, y_pred , average="macro"))
+print("F1-Score:")
+print(f1_score(y_test, y_pred , average="macro"))
