@@ -217,11 +217,12 @@ print("probability:"+str(np.max(result))+"\n" +
 
 y_pred1 = model.predict(X_test)
 y_pred = np.argmax(y_pred1, axis=1)
+y_test_arg = np.argmax(y_test,axis=1)
 
 # Ito yung output para dun sa mga memeasure natin sa chap 4
 print("Precision Score:")
-print(precision_score(y_test, y_pred , average="macro"))
+print(precision_score(y_test_arg, y_pred, average="macro"))
 print("Recall Score:")
-print(recall_score(y_test, y_pred , average="macro"))
+print(recall_score(y_test_arg, y_pred, average="macro"))
 print("F1-Score:")
-print(f1_score(y_test, y_pred , average="macro"))
+print(f1_score(y_test_arg, y_pred, average="macro"))
